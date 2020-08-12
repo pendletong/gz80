@@ -1,0 +1,12 @@
+{
+  "name": "gz80",
+  "version": "0.0.1",
+  "description": "Simple z80 emulator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gareth Pendleton <gareth.sidebottom@gmail.com>",
+  "license": "ISC",
+  "type": "module"
+}
