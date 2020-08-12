@@ -1,4 +1,5 @@
 
-import {cpu} from './cpu.js';
+import {CPU} from './cpu.js';
 
-console.log(cpu);
+const cpu = new CPU();
+console.log(cpu.debug());
