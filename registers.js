@@ -8,6 +8,7 @@ export class Registers {
 
         this.regMem = createMemory(this.regNames.length * 2);
         this.xregMem = createMemory(10);
+        this.xAcc = createMemory(2);
 
         this.regMap = this.regNames.reduce((map,name,i) => {
             map[name] = i * 2;
@@ -27,14 +28,25 @@ export class Registers {
         console.log();
     }
 
+    swapReg(sp, ep, regs, mem) {
+        const muxRegs = new DataView(this.regMem.buffer.slice(sp, ep));
+        regs.forEach((name, i) => {
+            this.setRegister(name, mem.getUint16(i*2));
+        });
+        return muxRegs;
+    }
     mux() {
         const sp = this.regMap[this.regMuxNames[0]];
         const ep = this.regMap[this.regMuxNames[this.regMuxNames.length - 1]] + 2;
-        const muxRegs = new DataView(this.regMem.buffer.slice(sp, ep));
-        this.regMuxNames.forEach((name, i) => {
-            this.setRegister(name, this.xregMem.getUint16(i*2));
-        });
-        this.xregMem = muxRegs;
+        
+        this.xregMem = this.swapReg(sp, ep, this.regMuxNames, this.xregMem);
+    }
+
+    switchAF() {
+        const sp = this.regMap[this.regAccNames[0]];
+        const ep = this.regMap[this.regAccNames[this.regAccNames.length - 1]] + 2;
+        
+        this.xAcc = this.swapReg(sp, ep, this.regAccNames, this.xAcc);
     }
 
     getRegister(name) {
