@@ -23,14 +23,16 @@ export class Registers {
         
 
         let j = 0;
-        this.regMap = this.regNames.reduce((map, reg, i) => {
-            map[reg.name] = j;
+        this.regMap = {};
+        this.regInfo = {};
+        this.regNames.forEach((reg, i) => {
+            this.regMap[reg.name] = j;
             if(reg.split) {
-                map[reg.name.substring(0, 1)] = j;
-                map[reg.name.substring(1, 2)] = j + 1;
+                this.regMap[reg.name.substring(0, 1)] = j;
+                this.regMap[reg.name.substring(1, 2)] = j + 1;
             }
+            this.regInfo[reg.name] = reg;
             j += reg.size;
-            return map;
         }, {});
 
         this.regMem = createMemory(this.regNames.length * 2);
@@ -71,11 +73,12 @@ export class Registers {
             throw new Error(`getRegister: No such register as '${name}'`);
         }
         const pos = this.regMap[name];
-        if (name.length === 1) {
-            return this.regMem.getUint8(pos);
+        const info = this.regInfo[name];
+        if (info && info.size === 2) {
+            return this.regMem.getUint16(pos);
         }
         else {
-            return this.regMem.getUint16(pos);
+            return this.regMem.getUint8(pos);
         }
     }
 
@@ -84,11 +87,12 @@ export class Registers {
             throw new Error(`setRegister: No such register as '${name}'`);
         }
         const pos = this.regMap[name];
-        if (name.length === 1) {
-            this.regMem.setUint8(pos, value);
+        const info = this.regInfo[name];
+        if (info && info.size == 2) {
+            this.regMem.setUint16(pos, value);
         }
         else {
-            this.regMem.setUint16(pos, value);
+            this.regMem.setUint8(pos, value);
         }
     }
 }
