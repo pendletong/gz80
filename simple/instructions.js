@@ -1,4 +1,4 @@
-import { CPU } from './cpu.js'
+import { CPU } from './cpu.js';
 
 export const instructions = {
     // nop
