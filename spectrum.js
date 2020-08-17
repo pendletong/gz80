@@ -1,5 +1,5 @@
 import { CPU } from './simple/cpu.js';
-import { createMemory, loadMemory } from './memory.js'
+import { createMemory, loadMemory } from './memory.js';
 
 const memory = createMemory(49152);
 console.log('initialised memory');
