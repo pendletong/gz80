@@ -10,6 +10,6 @@ console.log(`loaded rom ${n} bytes`);
 
 export class Spectrum {
     constructor() {
-        this.cpu = new CPU();
+        this.cpu = new CPU(memory);
     }
 }

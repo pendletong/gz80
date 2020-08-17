@@ -24,7 +24,6 @@ export class Registers {
 
         let j = 0;
         this.regMap = this.regNames.reduce((map, reg, i) => {
-            console.log(`map ${reg.name}`);
             map[reg.name] = j;
             if(reg.split) {
                 map[reg.name.substring(0, 1)] = j;
@@ -38,22 +37,17 @@ export class Registers {
         this.xregMem = createMemory(6);
         this.xAcc = createMemory(2);
 
-        console.log('size',j);
-
     }
 
     debug() {
         this.regNames.forEach((reg) => {
-            console.log(`${reg.name}: 0x${this.getRegister(reg.name).toString(16).padStart(4, '0')}`);
+            console.log(`${reg.name}: 0x${this.getRegister(reg.name).toString(16).padStart(reg.size*2, '0')}`);
         });
     }
 
     swapReg(sp, ep, regs, mem) {
-        console.log('slice',sp,ep);
         const muxRegs = new DataView(this.regMem.buffer.slice(sp, ep));
-        console.log('swapping ', regs);
         regs.forEach((reg, i) => {
-            console.log('set',reg.name,i);
             this.setRegister(reg.name, mem.getUint16(i * 2));
         });
         return muxRegs;
