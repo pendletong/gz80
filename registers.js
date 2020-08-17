@@ -25,7 +25,6 @@ export class Registers {
         this.regNames.forEach((name) => {
             console.log(`${name}: 0x${this.getRegister(name).toString(16).padStart(4,'0')}`)
         });
-        console.log();
     }
 
     swapReg(sp, ep, regs, mem) {
