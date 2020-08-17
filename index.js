@@ -31,18 +31,7 @@ import { Spectrum } from './spectrum.js';
 
 const speccy = new Spectrum();
 
-speccy.cpu.debug();
-speccy.cpu.step();
-speccy.cpu.debug();
-speccy.cpu.step();
-speccy.cpu.debug();
-speccy.cpu.step();
-speccy.cpu.debug();
-speccy.cpu.step();
-speccy.cpu.debug();
-speccy.cpu.step();
-speccy.cpu.debug();
-speccy.cpu.step();
-speccy.cpu.debug();
-speccy.cpu.step();
-speccy.cpu.debug();
+for(let i = 0; i < 50; i++) {
+    speccy.cpu.step();
+    speccy.cpu.debug();
+}

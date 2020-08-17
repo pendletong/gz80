@@ -1,5 +1,22 @@
 import { CPU } from './cpu.js';
 
+const exInstructions = {
+    ex: true,
+
+    71: {
+        name: 'LD i,a',
+        /**
+        * 
+        * @param {CPU} cpu 
+        */
+        fn: function (cpu) { 
+            const a = cpu.reg.getRegister('a');
+            cpu.reg.setRegister('i', a);
+            return 9;
+        }
+    }
+};
+
 export const instructions = {
     // nop
     0: {
@@ -24,26 +41,26 @@ export const instructions = {
 
     62: {
         name: 'LD a,*',
-         /**
-         * 
-         * @param {CPU} cpu 
-         */
+        /**
+        * 
+        * @param {CPU} cpu 
+        */
         fn: function (cpu) {
             const a = cpu.readMemory8();
-            cpu.reg.setRegister('a',a);
+            cpu.reg.setRegister('a', a);
             return 7;
         }
     },
 
     71: {
         name: 'LD b,a',
-         /**
-         * 
-         * @param {CPU} cpu 
-         */
+        /**
+        * 
+        * @param {CPU} cpu 
+        */
         fn: function (cpu) {
             const a = cpu.reg.getRegister('a');
-            cpu.reg.setRegister('b',a);
+            cpu.reg.setRegister('b', a);
             return 4;
         }
     },
@@ -63,10 +80,10 @@ export const instructions = {
 
     195: {
         name: 'JP **',
-         /**
-         * 
-         * @param {CPU} cpu 
-         */
+        /**
+        * 
+        * @param {CPU} cpu 
+        */
         fn: function (cpu) {
             const jp = cpu.readMemory16();
             cpu.reg.setRegister('pc', jp);
@@ -74,6 +91,20 @@ export const instructions = {
         }
     },
 
+    211: {
+        name: 'OUT (*),a',
+        /**
+        * 
+        * @param {CPU} cpu 
+        */
+        fn: function (cpu) {
+            const a = cpu.readMemory8();
+            // TODO: OUT?
+            return 11;
+        }
+    },
+
+    237: exInstructions,
 
     243: {
         name: 'DI',

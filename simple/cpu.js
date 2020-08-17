@@ -23,11 +23,24 @@ export class CPU {
         const ref = this.reg.getRegister('r');
         this.reg.setRegister('r', ref + 1);
         const inst = instructions[opcode];
+        
         if (inst === undefined) {
             throw new Error(`Undefined opcode ${opcode.toString(16).padStart(2, '0')}`);
         }
-        this.ticks += inst.fn(this);
-        
+        if(typeof inst.fn === 'function') {
+            console.log(inst.name);
+            this.ticks += inst.fn(this);
+        }
+        else {
+            const opcode2 = this.readMemory8();
+            const inst2 = inst[opcode2];
+
+            if (inst2 === undefined) {
+                throw new Error(`Undefined opcode ${opcode.toString(16).padStart(2, '0')}${opcode2.toString(16).padStart(2, '0')}`);
+            }
+            inst2.fn(this);
+        }
+         
     }
 
     readMemory8() {
