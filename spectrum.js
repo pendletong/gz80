@@ -4,6 +4,7 @@ import { createMemory, loadMemory } from './memory.js';
 const memory = createMemory(49152);
 console.log('initialised memory');
 
+const speed = 3500000;
 
 const n = loadMemory(memory, '48.rom', 0);
 console.log(`loaded rom ${n} bytes`);
@@ -11,5 +12,6 @@ console.log(`loaded rom ${n} bytes`);
 export class Spectrum {
     constructor() {
         this.cpu = new CPU(memory);
+        this.speed = speed;
     }
 }

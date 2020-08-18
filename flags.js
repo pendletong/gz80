@@ -14,7 +14,7 @@ const bits = {
 export function createFlag(bitObj) {
     let flag = 0;
     Object.keys(bitObj).forEach((k, i) => {
-        if(!!bitObj[k]) {
+        if(bitObj[k]) {
             const val = bits[k];
             
             flag += val | 0;

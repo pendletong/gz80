@@ -32,7 +32,8 @@ export class CPU {
             throw new Error(`Undefined opcode ${opcode.toString(16).padStart(2, '0')}`);
         }
         if(typeof inst.fn === 'function') {
-            this.ticks += inst.fn(this);
+            const ticks = inst.fn(this);
+            this.ticks += ticks;
         }
         else {
             const opcode2 = this.readMemory8();

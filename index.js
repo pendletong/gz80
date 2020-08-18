@@ -30,15 +30,14 @@
 import { Spectrum } from './spectrum.js';
 
 const speccy = new Spectrum();
-
+const st = process.hrtime();
 while(speccy.cpu.reg.getRegister('pc') != 4578) {
     speccy.cpu.step();
-    if(speccy.cpu.reg.getRegister('hl') > 16380 && speccy.cpu.reg.getRegister('hl') < 16386) {
-        speccy.cpu.debug();
-        
-    }
-    if(speccy.cpu.reg.getRegister('hl') > 0 && speccy.cpu.reg.getRegister('hl') < 16380) {
-        console.log('WTF');break;}
     //speccy.cpu.debug();
 }
+
+const et = process.hrtime();
+let ns = et[1]-st[1];
+if(ns < 0) ns += 1000000000;
+console.log(et[0]-st[0],ns);
 speccy.cpu.debug();
