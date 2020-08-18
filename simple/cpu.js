@@ -2,6 +2,10 @@ import { Registers } from '../registers.js';
 import { instructions } from './instructions.js';
 
 export class CPU {
+    /**
+     * 
+     * @param {DataView} mem 
+     */
     constructor(mem) {
         this.reg = new Registers();
         this.iff1 = 0;
@@ -28,7 +32,6 @@ export class CPU {
             throw new Error(`Undefined opcode ${opcode.toString(16).padStart(2, '0')}`);
         }
         if(typeof inst.fn === 'function') {
-            console.log(inst.name);
             this.ticks += inst.fn(this);
         }
         else {
@@ -55,5 +58,9 @@ export class CPU {
         const memVal = this.mem.getUint16(pc, true);
         this.reg.setRegister('pc', pc + 2);
         return memVal;
+    }
+
+    writeMemory(loc, val) {
+        this.mem.setUint8(val);
     }
 }

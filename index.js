@@ -31,7 +31,14 @@ import { Spectrum } from './spectrum.js';
 
 const speccy = new Spectrum();
 
-for(let i = 0; i < 50; i++) {
+while(speccy.cpu.reg.getRegister('pc') != 4578) {
     speccy.cpu.step();
-    speccy.cpu.debug();
+    if(speccy.cpu.reg.getRegister('hl') > 16380 && speccy.cpu.reg.getRegister('hl') < 16386) {
+        speccy.cpu.debug();
+        
+    }
+    if(speccy.cpu.reg.getRegister('hl') > 0 && speccy.cpu.reg.getRegister('hl') < 16380) {
+        console.log('WTF');break;}
+    //speccy.cpu.debug();
 }
+speccy.cpu.debug();
