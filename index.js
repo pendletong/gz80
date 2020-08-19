@@ -30,14 +30,12 @@
 import { Spectrum } from './spectrum.js';
 
 const speccy = new Spectrum();
-const st = process.hrtime();
+const st = process.hrtime.bigint();
 while(speccy.cpu.reg.getRegister('pc') != 4578) {
     speccy.cpu.step();
     //speccy.cpu.debug();
 }
 
-const et = process.hrtime();
-let ns = et[1]-st[1];
-if(ns < 0) ns += 1000000000;
-console.log(et[0]-st[0],ns);
+const et = process.hrtime.bigint();
+console.log(et-st);
 speccy.cpu.debug();
