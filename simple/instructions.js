@@ -15,7 +15,39 @@ const exInstructions = {
             cpu.reg.setRegister('i', a);
             return 9;
         }
-    }
+    },
+    
+    82: {
+        name: 'SBC hl,de',
+         /**
+         * 
+         * @param {CPU} cpu 
+         */
+        fn: function (cpu) {
+            const hl = cpu.reg.getRegister('hl');
+            const de = cpu.reg.getRegister('de');
+            const c = getFlagBit(cpu.reg.getRegister('f'), 'c');
+            let res = hl - de;
+            if(c) {
+                res -= 1;
+            }
+            cpu.reg.setRegister('hl', res);
+
+            const flags = {
+                s: (res & 128) >> 7,
+                z: res == 0 ? 1 : 0,
+                f5: (hl & 32) >> 5,
+                h: ((hl & 15) + (de & 15)) > 15 ? 1 : 0,
+                f3: (hl & 8) >> 3,
+                v: (hl > 0 && de > 0 && res < 0) || (hl < 0 && de < 0 && res > 0) ? 1 : 0,
+                n: 1,
+                c: res > 255 || res < -255 ? 1 : 0
+            };
+            cpu.reg.setRegister('f', createFlag(flags));
+
+            return 15;
+        }
+    },
 };
 
 export const instructions = {
@@ -51,9 +83,6 @@ export const instructions = {
             
             const f = cpu.reg.getRegister('f');
             const nz = !getFlagBit(f, 'z');
-            if(cpu.reg.getRegister('hl') < 16386) {
-                console.log(`hl ${cpu.reg.getRegister('hl')} f ${f} and nz ${nz}`);
-            }
             if(nz) {
                 if(jmp & 128) {
                     jmp = -128 + (jmp & 127);
@@ -155,7 +184,7 @@ export const instructions = {
          */
         fn: function (cpu) {
             const a = cpu.reg.getRegister('a');
-            const res = a && a;
+            const res = a & a;
             cpu.reg.setRegister('a', res);
             const flags = {
                 s: (res & 128) >> 7,

@@ -89,9 +89,11 @@ export class Registers {
         const pos = this.regMap[name];
         const info = this.regInfo[name];
         if (info && info.size == 2) {
+            value = value & 0xffff;
             this.regMem.setUint16(pos, value);
         }
         else {
+            value = value & 0xff;
             this.regMem.setUint8(pos, value);
         }
     }
