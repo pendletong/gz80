@@ -1,5 +1,5 @@
 import { CPU } from './cpu.js';
-import { createFlag, getFlagBit } from '../flags.js';
+import { createFlag, getFlagBit, calcParity } from '../flags.js';
 
 const exInstructions = {
     ex: true,
@@ -143,6 +143,31 @@ export const instructions = {
         fn: function (cpu) {
             const e = cpu.reg.getRegister('e');
             cpu.reg.setRegister('l', e);
+            return 4;
+        }
+    },
+
+    167: {
+        name: 'AND a',
+         /**
+         * 
+         * @param {CPU} cpu 
+         */
+        fn: function (cpu) {
+            const a = cpu.reg.getRegister('a');
+            const res = a && a;
+            cpu.reg.setRegister('a', res);
+            const flags = {
+                s: (res & 128) >> 7,
+                z: res == 0 ? 1 : 0,
+                f5: (a & 32) >> 5,
+                h: 1,
+                f3: (a & 8) >> 3,
+                p: calcParity(res),
+                n: 0,
+                c: 0
+            };
+            cpu.reg.setRegister('f', createFlag(flags));
             return 4;
         }
     },

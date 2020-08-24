@@ -31,7 +31,7 @@ import { Spectrum } from './spectrum.js';
 
 const speccy = new Spectrum();
 const st = process.hrtime.bigint();
-while(speccy.cpu.reg.getRegister('pc') != 4578) {
+while(true) {
     speccy.cpu.step();
     //speccy.cpu.debug();
 }

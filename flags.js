@@ -31,3 +31,8 @@ export function getFlagBit(val, flag) {
 
     return (val & bitVal) > 0;
 }
+
+export function calcParity(val) {
+    const bVal = val.toString(2);
+    return ((bVal.split('1').length - 1) % 2) == 0
+}
